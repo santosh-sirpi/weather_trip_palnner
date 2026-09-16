@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelFlow Maps — AI-Powered Itinerary</title>
+    <meta name="description" content="Plan your perfect trip with AI-powered day-by-day itineraries, interactive route maps, and personalized activity suggestions. Enter a city and dates to get started.">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Leaflet Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+</head>
+<body>
+    <!-- Animated background particles -->
+    <div class="bg-particles" id="bgParticles"></div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <div class="logo">
+                <img src="logo.png" alt="TravelFlow Maps Logo" class="logo-img">
+                <span class="logo-text">TravelFlow <span class="logo-accent">Maps</span></span>
+            </div>
+            <nav class="header-nav">
+                <a href="#planner" class="nav-link active" id="navPlannerBtn">Journey</a>
+                <a href="#route-optimizer" class="nav-link nav-link-highlight" id="navOptimizerBtn">
+                    <span class="nav-pulse-dot"></span>
+                    <span>Route Optimizer</span>
+                </a>
+                <a href="#featuresRibbon" class="nav-link">Intelligence</a>
+                <a href="#how-it-works" class="nav-link" id="navHowItWorksBtn">How It Works</a>
+                <button type="button" class="nav-link nav-btn-arch" id="navArchBtn">Architecture</button>
+            </nav>
+            <div class="header-status">
+                <span class="status-indicator"></span>
+                <span class="status-text">AI + RAG Engine: Online</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section: Clean, Fullscreen Travel Portal -->
+        <section class="hero" id="planner">
+            <div class="hero-container">
+                
+                <!-- Hero Branding & Intro -->
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-dot"></span>
+                        <span>Intelligent Travel Engine & Interactive Flow Maps</span>
+                    </div>
+                    <h1 class="hero-title">
+                        Map Your Journey
+                        <span class="title-gradient">With Effortless Flow</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Effortless travel itineraries crafted for every destination. Get day-by-day schedules, interactive route maps, and curated activities tailored to your journey.
+                    </p>
+                    <div class="hero-actions-row">
+                        <button type="button" class="hero-quick-opt-btn" id="heroOptimizerLaunchBtn">
+                            <span class="sparkle-icon">⚡</span>
+                            <span>Open Smart Route Optimizer & Dual View</span>
+                            <span class="badge-mini">New Feature</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Master Search Console (Clean Widescreen Bar) -->
+                <div class="planner-card" id="plannerCard">
+                    <div class="card-glow"></div>
+                    <form id="tripForm" class="trip-form">
+                        <div class="console-grid">
+                            <!-- City Input -->
+                            <div class="form-group city-group">
+                                <label for="cityInput" class="form-label">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                                        <circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                    Destination
+                                </label>
+                                <div class="input-wrapper">
+                                    <input 
+                                        type="text" 
+                                        id="cityInput" 
+                                        placeholder="Where do you want to go? (e.g. Paris, Tokyo, Rome...)" 
+                                        required
+                                        autocomplete="off"
+                                    >
+                                    <div class="city-suggestions" id="citySuggestions"></div>
+                                </div>
+                            </div>
+
+                            <!-- Start Date -->
+                            <div class="form-group">
+                                <label for="startDate" class="form-label">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                                        <line x1="16" x2="16" y1="2" y2="6"/>
+                                        <line x1="8" x2="8" y1="2" y2="6"/>
+                                        <line x1="3" x2="21" y1="10" y2="10"/>
+                                    </svg>
+                                    Departure
+                                </label>
+                                <input type="date" id="startDate" required>
+                            </div>
+
+                            <!-- End Date -->
+                            <div class="form-group">
+                                <label for="endDate" class="form-label">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                                        <line x1="16" x2="16" y1="2" y2="6"/>
+                                        <line x1="8" x2="8" y1="2" y2="6"/>
+                                        <line x1="3" x2="21" y1="10" y2="10"/>
+                                    </svg>
+                                    Return
+                                </label>
+                                <input type="date" id="endDate" required>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="form-group form-submit-group">
+                                <button type="submit" id="submitBtn" class="submit-btn">
+                                    <span class="btn-text">Generate Schedule</span>
+                                    <span class="btn-icon">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                            <path d="M5 12h14"/>
+                                            <path d="m12 5 7 7-7 7"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Genuine Search Inspiration Pills (Triggers live geocoding without hardcoded coordinates) -->
+                        <div class="preset-chips" id="presetChips">
+                            <span class="preset-label">Search Inspiration:</span>
+                            <button type="button" class="preset-chip" data-search="Paris, France">Paris</button>
+                            <button type="button" class="preset-chip" data-search="Tokyo, Japan">Tokyo</button>
+                            <button type="button" class="preset-chip" data-search="Rome, Italy">Rome</button>
+                            <button type="button" class="preset-chip" data-search="London, UK">London</button>
+                            <button type="button" class="preset-chip" data-search="New York, USA">New York</button>
+                            <button type="button" class="preset-chip" data-search="Dharwad, Karnataka, India">Dharwad</button>
+                            <button type="button" class="preset-chip" data-search="Dubai, UAE">Dubai</button>
+                            <button type="button" class="preset-chip" data-search="Bengaluru, Karnataka, India">Bengaluru</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Clean Highlights Ribbon (Below the Grid) -->
+                <div class="portal-features-ribbon" id="featuresRibbon">
+                    <div class="ribbon-card">
+                        <div class="ribbon-icon">🌦️</div>
+                        <div class="ribbon-info">
+                            <h4>Hyperlocal 14-Day Forecasts</h4>
+                            <p>Real Open-Meteo meteorological data including temperature curves, rain chance, and WMO codes.</p>
+                        </div>
+                    </div>
+                    <div class="ribbon-card">
+                        <div class="ribbon-icon">🧠</div>
+                        <div class="ribbon-info">
+                            <h4>Weather-Adaptive Scheduling</h4>
+                            <p>Prioritizes outdoor exploration on clear days and transitions to indoor culture when rain arrives.</p>
+                        </div>
+                    </div>
+                    <div class="ribbon-card">
+                        <div class="ribbon-icon">🗺️</div>
+                        <div class="ribbon-info">
+                            <h4>Interactive Geospatial Map</h4>
+                            <p>High-contrast dark-mode tiles, day-coded markers, sequential routes, and timeline sync.</p>
+                        </div>
+                    </div>
+                    <div class="ribbon-card">
+                        <div class="ribbon-icon">🧳</div>
+                        <div class="ribbon-info">
+                            <h4>Smart Packing Assistant</h4>
+                            <p>Generates tailored luggage checklists dynamically matched to forecast temperature and precipitation.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+
+        <!-- Loading State -->
+        <section class="loading-section" id="loadingSection">
+            <div class="loading-container">
+                <div class="weather-loader">
+                    <div class="loader-sun">
+                        <div class="sun-core"></div>
+                        <div class="sun-ray"></div>
+                        <div class="sun-ray"></div>
+                        <div class="sun-ray"></div>
+                        <div class="sun-ray"></div>
+                        <div class="sun-ray"></div>
+                        <div class="sun-ray"></div>
+                        <div class="sun-ray"></div>
+                        <div class="sun-ray"></div>
+                    </div>
+                    <div class="loader-cloud loader-cloud-1"></div>
+                    <div class="loader-cloud loader-cloud-2"></div>
+                </div>
+                <h2 class="loading-title">Crafting Your TravelFlow</h2>
+                <div class="loading-steps">
+                    <div class="loading-step active" id="step1">
+                        <div class="step-indicator"></div>
+                        <span>Fetching weather forecast...</span>
+                    </div>
+                    <div class="loading-step" id="step2">
+                        <div class="step-indicator"></div>
+                        <span>AI analyzing conditions...</span>
+                    </div>
+                    <div class="loading-step" id="step3">
+                        <div class="step-indicator"></div>
+                        <span>Building your itinerary...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section" id="resultsSection">
+            <div class="results-header">
+                <button class="back-btn" id="backBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m12 19-7-7 7-7"/>
+                        <path d="M19 12H5"/>
+                    </svg>
+                    Plan Another Trip
+                </button>
+                <div class="results-title-block">
+                    <h2 class="results-title" id="resultsTitle">Your Trip to Paris</h2>
+                    <p class="results-dates" id="resultsDates">Jul 15 — Jul 20, 2026</p>
+                </div>
+                <div class="results-actions">
+                    <button class="action-btn" id="exportPdfBtn" title="Export PDF / Print">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        Export PDF
+                    </button>
+                    <button class="action-btn" id="exportIcalBtn" title="Calendar Export">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                            <line x1="16" x2="16" y1="2" y2="6"></line>
+                            <line x1="8" x2="8" y1="2" y2="6"></line>
+                            <line x1="3" x2="21" y1="10" y2="10"></line>
+                        </svg>
+                        Calendar Export
+                    </button>
+                    <button class="action-btn" id="copySummaryBtn" title="Copy Text Summary">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+                        </svg>
+                        Copy Summary
+                    </button>
+                </div>
+            </div>
+
+            <!-- RAG Grounding Banner -->
+            <div class="rag-grounding-banner" id="ragGroundingBanner">
+                <div class="rag-banner-left">
+                    <div class="rag-badge-icon">📚</div>
+                    <div>
+                        <div class="rag-badge-title">
+                            <span>Grounded in Actual Datasets</span>
+                            <span class="rag-live-indicator">RAG Active</span>
+                            <span class="n8n-live-indicator" id="n8nLiveIndicator" title="n8n Workflow Automation Status">⚡ n8n Workflow: Synced</span>
+                        </div>
+                        <p class="rag-badge-sub" id="ragDatasetName">Verified Open Travel & OpenStreetMap POI Dataset</p>
+                    </div>
+                </div>
+                <div class="rag-banner-actions">
+                    <button type="button" class="rag-inspect-btn" id="ragInspectBtn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <span>Inspect Dataset (<span id="ragCount">0</span> Places)</span>
+                    </button>
+                    <button type="button" class="arch-console-btn" id="openArchModalBtn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        <span>AI Architecture</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Weather Overview Strip -->
+            <div class="weather-overview-wrapper">
+                <div class="weather-overview-title">
+                    <span>Forecast Highlights (Click a day to jump)</span>
+                </div>
+                <div class="weather-overview" id="weatherOverview"></div>
+            </div>
+
+            <!-- Smart AI Packing Assistant Widget -->
+            <div class="packing-widget" id="packingWidget">
+                <div class="packing-widget-header">
+                    <div class="packing-title">
+                        <span class="packing-icon">🧳</span>
+                        <span>Smart AI Packing Assistant</span>
+                    </div>
+                    <span class="packing-badge">Forecast Adaptive</span>
+                </div>
+                <div class="packing-items" id="packingItems"></div>
+            </div>
+
+            <!-- Category Filter Bar -->
+            <div class="category-filter-bar" id="categoryFilterBar">
+                <span class="filter-label">Filter Activities:</span>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All Activities</button>
+                    <button class="filter-btn" data-filter="outdoor">🏃 Outdoor & Sightseeing</button>
+                    <button class="filter-btn" data-filter="culture">🏛️ Culture & Museums</button>
+                    <button class="filter-btn" data-filter="dining">🍽️ Dining & Food</button>
+                    <button class="filter-btn" data-filter="relax">🛍️ Shopping & Relax</button>
+                </div>
+            </div>
+
+            <!-- View Switcher & Interactive Map Controls Bar -->
+            <div class="map-view-controls" id="mapViewControls">
+                <div class="view-mode-tabs">
+                    <button class="view-mode-btn active" id="viewSplitBtn" data-view="split" title="Side-by-side Map & Timeline">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/></svg>
+                        Split View
+                    </button>
+                    <button class="view-mode-btn" id="viewMapBtn" data-view="map" title="Full Map View">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+                        Full Map
+                    </button>
+                    <button class="view-mode-btn" id="viewTimelineBtn" data-view="timeline" title="Timeline Only">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><polyline points="3 6 4 7 6 5"/><polyline points="3 12 4 13 6 11"/><polyline points="3 18 4 19 6 17"/></svg>
+                        Timeline Only
+                    </button>
+                </div>
+
+                <div class="map-day-filter" id="mapDayFilter">
+                    <span class="map-filter-label">Map Filter:</span>
+                    <div class="map-day-chips" id="mapDayChips">
+                        <!-- Populated dynamically: All, Day 1, Day 2... -->
+                    </div>
+                </div>
+
+                <div class="map-theme-toggle">
+                    <button class="map-style-btn active" id="mapThemeDark" title="Dark Carto Map">Dark</button>
+                    <button class="map-style-btn" id="mapThemeLight" title="Street Map">Street</button>
+                </div>
+            </div>
+
+            <!-- Combined Results Content Layout -->
+            <div class="results-content-layout split-view" id="resultsContentLayout">
+                <!-- Interactive Sticky Map Container -->
+                <div class="map-container" id="mapContainer">
+                    <div class="map-card">
+                        <div class="map-header">
+                            <div class="map-title-group">
+                                <span class="map-live-dot"></span>
+                                <span class="map-title-text" id="mapDestinationTitle">Trip Geography & Route Map</span>
+                            </div>
+                            <div class="map-legend" id="mapLegend">
+                                <span class="legend-badge"><span class="legend-dot" style="background:var(--accent-blue);"></span> Route</span>
+                                <span class="legend-badge"><span class="legend-dot" style="background:var(--accent-yellow);"></span> Activities</span>
+                            </div>
+                        </div>
+                        <div id="itineraryMap" class="itinerary-map"></div>
+                        <div class="map-footer-hint">
+                            <span>💡 Click any pin on the map or activity card to zoom & sync</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Container -->
+                <div class="timeline-container" id="timelineContainer">
+                    <div class="timeline" id="timeline"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Smart Route Optimization & Dual Map/Flow View Section -->
+        <section class="optimizer-section" id="optimizerSection">
+            <div class="optimizer-container">
+                
+                <!-- Section Header -->
+                <div class="results-header optimizer-header-bar">
+                    <button class="back-btn" id="optBackBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 19-7-7 7-7"/>
+                            <path d="M19 12H5"/>
+                        </svg>
+                        Back to Planner
+                    </button>
+                    <div class="results-title-block">
+                        <div class="opt-badge-pill">
+                            <span class="badge-dot-live"></span>
+                            <span>Real Road Network Routing & Multi-Destination Optimization</span>
+                        </div>
+                        <h2 class="results-title" id="optTitle">Smart Route Optimizer</h2>
+                        <p class="results-dates" id="optSubtitle">Shortest practical path · Reduced backtracking · Synchronized Map & Flow</p>
+                    </div>
+                    <div class="results-actions">
+                        <button class="action-btn" id="optLoadTripBtn" title="Load destinations from your current itinerary">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                            <span>Load from Trip</span>
+                        </button>
+                        <button class="action-btn" id="optClearAllBtn" title="Clear all destinations">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            <span>Clear All</span>
+                        </button>
+                        <button class="action-btn" id="optExportSummaryBtn" title="Copy route summary">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            <span>Copy Flow</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Master Optimization Control Console -->
+                <div class="optimizer-card" id="optConsoleCard">
+                    <div class="card-glow"></div>
+                    
+                    <!-- Row 1: Starting Point & Travel Mode -->
+                    <div class="opt-console-grid">
+                        
+                        <!-- Starting Location -->
+                        <div class="opt-form-group opt-start-group">
+                            <div class="form-label-row" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                <label for="optStartInput" class="form-label" style="margin-bottom:0;">
+                                    <span class="start-dot-icon">🟢</span>
+                                    Starting Location (First Point)
+                                </label>
+                                <div class="opt-quick-loc-btns" style="display:flex; gap:6px;">
+                                    <button type="button" class="opt-loc-mini-btn" id="optUseGpsBtn" title="Use current GPS device location">
+                                        📍 GPS
+                                    </button>
+                                    <button type="button" class="opt-loc-mini-btn" id="optUseCityCenterBtn" title="Use city center of destination">
+                                        🏙️ City Center
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="input-wrapper">
+                                <input 
+                                    type="text" 
+                                    id="optStartInput" 
+                                    placeholder="Enter your hotel, address, or click 📍 GPS..."
+                                    autocomplete="off"
+                                >
+                                <div class="city-suggestions" id="optStartSuggestions"></div>
+                            </div>
+                        </div>
+
+                        <!-- Transportation Mode Selector -->
+                        <div class="opt-form-group opt-mode-group">
+                            <label class="form-label">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                                Transportation Mode
+                            </label>
+                            <div class="opt-mode-pills" id="optModePills">
+                                <button type="button" class="opt-mode-pill active" data-mode="driving" title="Car / Taxi (OSRM Highway Engine)">
+                                    <span>🚗</span>
+                                    <span>Driving</span>
+                                </button>
+                                <button type="button" class="opt-mode-pill" data-mode="transit" title="Public Transit (Metro / Bus with transfer buffers)">
+                                    <span>🚆</span>
+                                    <span>Transit</span>
+                                </button>
+                                <button type="button" class="opt-mode-pill" data-mode="cycling" title="Bicycle / Scooter (Bike paths)">
+                                    <span>🚲</span>
+                                    <span>Cycling</span>
+                                </button>
+                                <button type="button" class="opt-mode-pill" data-mode="walking" title="Walking (Pedestrian paths)">
+                                    <span>🚶</span>
+                                    <span>Walking</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Departure Time & Available Trip Budget -->
+                        <div class="opt-form-group opt-time-group">
+                            <label for="optStartTime" class="form-label">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                Start Time
+                            </label>
+                            <input type="time" id="optStartTime" value="09:00" class="opt-time-input">
+                        </div>
+
+                        <div class="opt-form-group opt-budget-group">
+                            <label for="optAvailableHours" class="form-label">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                                Available Trip Time
+                            </label>
+                            <select id="optAvailableHours" class="opt-select">
+                                <option value="240">4 Hours (Half Day)</option>
+                                <option value="360">6 Hours</option>
+                                <option value="480" selected>8 Hours (Full Day)</option>
+                                <option value="600">10 Hours (Extended)</option>
+                                <option value="720">12 Hours (Dawn to Dusk)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Add Destination Bar -->
+                    <div class="opt-add-destination-bar">
+                        <div class="opt-add-input-wrapper">
+                            <label for="optAddDestInput" class="form-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                                Add Destination / Stop
+                            </label>
+                            <div class="input-wrapper">
+                                <input 
+                                    type="text" 
+                                    id="optAddDestInput" 
+                                    placeholder="Search landmark, museum, restaurant, or address..."
+                                    autocomplete="off"
+                                >
+                                <div class="city-suggestions" id="optDestSuggestions"></div>
+                            </div>
+                        </div>
+
+                        <div class="opt-add-meta">
+                            <div class="opt-meta-field">
+                                <label for="optDestPriority" class="form-label">Priority</label>
+                                <select id="optDestPriority" class="opt-select-sm">
+                                    <option value="high">🔴 High</option>
+                                    <option value="medium" selected>🟡 Medium</option>
+                                    <option value="low">🟢 Low</option>
+                                </select>
+                            </div>
+
+                            <div class="opt-meta-field">
+                                <label for="optDestStay" class="form-label">Stay Duration</label>
+                                <select id="optDestStay" class="opt-select-sm">
+                                    <option value="30">30 min</option>
+                                    <option value="45" selected>45 min</option>
+                                    <option value="60">1 hour</option>
+                                    <option value="90">1.5 hours</option>
+                                    <option value="120">2 hours</option>
+                                </select>
+                            </div>
+
+                            <button type="button" class="submit-btn opt-add-btn" id="optAddBtn">
+                                <span>+ Add Stop</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Quick Location Actions & Optimization Controls -->
+                    <div class="opt-presets-and-toggles">
+                        <div class="preset-chips">
+                            <span class="preset-label">Quick Actions:</span>
+                            <button type="button" class="preset-chip opt-quick-action" id="optChipGps">📍 Use My GPS</button>
+                            <button type="button" class="preset-chip opt-quick-action" id="optChipCity">🏙️ Use Trip City</button>
+                            <button type="button" class="preset-chip opt-quick-action" id="optChipLoadTrip">📋 Load Planned Activities</button>
+                            <button type="button" class="preset-chip opt-quick-action" id="optChipClear">🗑️ Clear Stops</button>
+                        </div>
+
+                        <div class="opt-auto-toggle-wrapper">
+                            <label class="toggle-switch-label" title="Automatically re-optimize route when destinations or modes change">
+                                <input type="checkbox" id="optAutoToggle" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">⚡ Auto-Optimize: <strong id="optAutoStatus">ON</strong></span>
+                            </label>
+                            <button type="button" class="opt-recalculate-btn" id="optManualReorderBtn" title="Recalculate shortest practical route now">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                                <span>Optimize Now</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comprehensive Metrics & Recommended Order Ribbon -->
+                <div class="opt-metrics-banner" id="optMetricsBanner">
+                    <div class="opt-metrics-cards">
+                        <div class="opt-metric-item">
+                            <div class="opt-metric-icon">🛣️</div>
+                            <div>
+                                <span class="opt-metric-label">Total Distance</span>
+                                <span class="opt-metric-val" id="optTotalDistance">0.0 km</span>
+                            </div>
+                        </div>
+
+                        <div class="opt-metric-item">
+                            <div class="opt-metric-icon">⏱️</div>
+                            <div>
+                                <span class="opt-metric-label">Total Travel Time</span>
+                                <span class="opt-metric-val" id="optTotalTravelTime">0 min</span>
+                            </div>
+                        </div>
+
+                        <div class="opt-metric-item">
+                            <div class="opt-metric-icon">⏳</div>
+                            <div>
+                                <span class="opt-metric-label">Total Stay Time</span>
+                                <span class="opt-metric-val" id="optTotalStayTime">0 min</span>
+                            </div>
+                        </div>
+
+                        <div class="opt-metric-item">
+                            <div class="opt-metric-icon">🏁</div>
+                            <div>
+                                <span class="opt-metric-label">Total Trip Duration</span>
+                                <span class="opt-metric-val highlight-cyan" id="optTotalDuration">0h 0m</span>
+                            </div>
+                        </div>
+
+                        <div class="opt-metric-item opt-budget-metric">
+                            <div class="opt-budget-badge-wrap" id="optBudgetBadgeWrap">
+                                <span class="opt-budget-badge status-ok" id="optBudgetBadge">✅ Within 8h Budget</span>
+                                <span class="opt-budget-sub" id="optBudgetSub">All stops fit comfortably</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Sequence Breadcrumb Bar -->
+                    <div class="opt-sequence-strip">
+                        <span class="opt-sequence-title">Recommended Order:</span>
+                        <div class="opt-sequence-flow" id="optSequenceBreadcrumbs">
+                            <span class="seq-step seq-start">START</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New Dual-View Interface: Map View & Trip Flow Visible Simultaneously -->
+                <div class="optimizer-dual-view" id="optDualView">
+                    
+                    <!-- LEFT COLUMN: Interactive Map -->
+                    <div class="opt-map-column" id="optMapColumn">
+                        <div class="opt-map-card">
+                            <div class="opt-map-header">
+                                <div class="opt-map-title-group">
+                                    <span class="opt-live-indicator"></span>
+                                    <h3 class="opt-map-title">Interactive Route Map</h3>
+                                </div>
+                                <div class="opt-map-tools">
+                                    <div class="opt-map-legend">
+                                        <span class="legend-item"><span class="legend-dot dot-start"></span> Start</span>
+                                        <span class="legend-item"><span class="legend-dot dot-stop"></span> Stops ①..N</span>
+                                        <span class="legend-item"><span class="legend-dot dot-route"></span> Road Path</span>
+                                    </div>
+                                    <div class="map-theme-toggle">
+                                        <button type="button" class="map-style-btn active" id="optMapThemeDark">Dark</button>
+                                        <button type="button" class="map-style-btn" id="optMapThemeStreet">Street</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="optimizerMap" class="optimizer-map"></div>
+
+                            <div class="opt-map-footer">
+                                <span class="opt-footer-tip">
+                                    💡 <strong>Dual-View Sync:</strong> Click any pin or road segment to inspect leg details and highlight in Trip Flow.
+                                </span>
+                                <span class="opt-routing-engine-badge" id="optRoutingBadge">
+                                    🛰️ OSRM Road Engine Active
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN: Chronological Trip Flow -->
+                    <div class="opt-flow-column" id="optFlowColumn">
+                        <div class="opt-flow-card">
+                            <div class="opt-flow-header">
+                                <div class="opt-flow-title-group">
+                                    <span class="opt-flow-icon">📍</span>
+                                    <h3 class="opt-flow-title">Chronological Trip Flow</h3>
+                                </div>
+                                <span class="opt-stops-count" id="optStopsCount">0 Destinations</span>
+                            </div>
+
+                            <!-- Scrollable Chronological Vertical Timeline Flow -->
+                            <div class="opt-flow-list" id="optFlowList">
+                                <!-- Populated dynamically by script.js -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- How It Works Section (Dedicated View) -->
+        <section class="how-it-works" id="how-it-works">
+            <div class="results-header" style="margin-bottom: 40px;">
+                <button class="back-btn" id="howItWorksBackBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m12 19-7-7 7-7"/>
+                        <path d="M19 12H5"/>
+                    </svg>
+                    Back to Planner
+                </button>
+                <div class="results-title-block">
+                    <h2 class="results-title">How TravelFlow Maps Works</h2>
+                    <p class="results-dates">Real weather forecast analysis & AI itinerary generation</p>
+                </div>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </div>
+                    <h3>Enter Your Destination</h3>
+                    <p>Type in your city and select your travel dates. We support cities worldwide.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+                        </svg>
+                    </div>
+                    <h3>Real Weather Data</h3>
+                    <p>We fetch accurate forecasts from Open-Meteo — no API keys, fully open and free.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a4 4 0 0 0-4 4v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-2V6a4 4 0 0 0-4-4Z"/>
+                            <circle cx="12" cy="15" r="2"/>
+                        </svg>
+                    </div>
+                    <h3>AI Plans Your Days</h3>
+                    <p>Our Groq-powered AI crafts personalized activities matched to each day's weather.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">04</div>
+                    <div class="step-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                            <line x1="16" x2="16" y1="2" y2="6"/>
+                            <line x1="8" x2="8" y1="2" y2="6"/>
+                            <line x1="3" x2="21" y1="10" y2="10"/>
+                            <path d="m9 16 2 2 4-4"/>
+                        </svg>
+                    </div>
+                    <h3>Get Your Itinerary</h3>
+                    <p>View a beautiful day-by-day timeline with weather details and activity suggestions.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <p>&copy; 2026 TravelFlow Maps. Built with Open-Meteo, Groq AI & n8n.</p>
+        </div>
+    </footer>
+
+    <!-- Error Toast -->
+    <div class="toast" id="errorToast">
+        <div class="toast-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" x2="12" y1="8" y2="12"/>
+                <line x1="12" x2="12.01" y1="16" y2="16"/>
+            </svg>
+        </div>
+        <span class="toast-message" id="toastMessage">Something went wrong</span>
+    </div>
+
+    <!-- RAG Sources Inspection Modal -->
+    <div class="rag-modal" id="ragModal">
+        <div class="rag-modal-backdrop" id="ragModalBackdrop"></div>
+        <div class="rag-modal-container">
+            <div class="rag-modal-header">
+                <div>
+                    <h3 class="rag-modal-title">📚 Retrieved Dataset Knowledge Base</h3>
+                    <p class="rag-modal-sub" id="ragModalSub">Actual verified places retrieved and injected into AI for grounded scheduling</p>
+                </div>
+                <button type="button" class="rag-modal-close" id="ragModalCloseBtn">✕</button>
+            </div>
+            <div class="rag-modal-body" id="ragModalList">
+                <!-- Populated via JavaScript -->
+            </div>
+        </div>
+    </div>
+    <!-- Architecture Console Modal (Semantic Layer, Access Control, Querying Layer, Self-Learning Loop) -->
+    <div class="arch-modal" id="archModal">
+        <div class="arch-modal-backdrop" id="archModalBackdrop"></div>
+        <div class="arch-modal-container">
+            <div class="arch-modal-header">
+                <div class="arch-header-title-group">
+                    <div class="arch-header-icon">⚙️</div>
+                    <div>
+                        <h3 class="arch-modal-title">AI & RAG Enterprise Architecture</h3>
+                        <p class="arch-modal-sub">Live Telemetry for Semantic Layer, Access Control, Querying Layer & Self-Learning Loop</p>
+                    </div>
+                </div>
+                <button type="button" class="arch-modal-close" id="archModalCloseBtn">✕</button>
+            </div>
+            <div class="arch-modal-body">
+                <div class="arch-grid">
+                    <!-- 1. Semantic Layer -->
+                    <div class="arch-card">
+                        <div class="arch-card-top">
+                            <span class="arch-card-tag">Pillar 1</span>
+                            <span class="arch-card-badge status-active">Active</span>
+                        </div>
+                        <div class="arch-card-icon">🌐</div>
+                        <h4 class="arch-card-title">Semantic Layer</h4>
+                        <p class="arch-card-desc">Translates meteorological telemetry into environmental impact models, thermal comfort tiers, and activity compatibility ontologies.</p>
+                        <div class="arch-metrics-list">
+                            <div class="arch-metric-item">
+                                <span class="metric-label">Thermal Comfort</span>
+                                <span class="metric-val" id="archThermalVal">Optimal Outdoor Comfort</span>
+                            </div>
+                            <div class="arch-metric-item">
+                                <span class="metric-label">Grounding Confidence</span>
+                                <span class="metric-val highlight-cyan" id="archGroundingVal">100%</span>
+                            </div>
+                            <div class="arch-metric-item">
+                                <span class="metric-label">Environmental Policy</span>
+                                <span class="metric-val" id="archPolicyVal">Open-Air Promenades</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Access Control -->
+                    <div class="arch-card">
+                        <div class="arch-card-top">
+                            <span class="arch-card-tag">Pillar 2</span>
+                            <span class="arch-card-badge status-active">Enforcing</span>
+                        </div>
+                        <div class="arch-card-icon">🛡️</div>
+                        <h4 class="arch-card-title">Access Control</h4>
+                        <p class="arch-card-desc">Enforces Role-Based Access Control (RBAC), token-bucket sliding rate limits, input sanitization, and geofence validation.</p>
+                        <div class="arch-metrics-list">
+                            <div class="arch-metric-item">
+                                <span class="metric-label">Active Role Tier</span>
+                                <span class="metric-val highlight-green" id="archRoleVal">Guest Tier</span>
+                            </div>
+                            <div class="arch-metric-item">
+                                <span class="metric-label">Sliding Window Quota</span>
+                                <span class="metric-val" id="archQuotaVal">40 req / min</span>
+                            </div>
+                            <div class="arch-metric-item">
+                                <span class="metric-label">Governance Status</span>
+                                <span class="metric-val highlight-green">Sanitized & Validated</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Querying Layer -->
+                    <div class="arch-card">
+                        <div class="arch-card-top">
+                            <span class="arch-card-tag">Pillar 3</span>
+                            <span class="arch-card-badge status-active">Multi-Stage</span>
+                        </div>
+                        <div class="arch-card-icon">⚡</div>
+                        <h4 class="arch-card-title">Querying Layer</h4>
+                        <p class="arch-card-desc">Orchestrates multi-stage hybrid retrieval, intent expansion, spatial clustering, and multi-factor semantic re-ranking.</p>
+                        <div class="arch-metrics-list">
+                            <div class="arch-metric-item">
+                                <span class="metric-label">Pipeline Stages</span>
+                                <span class="metric-val">4 Stages (Hybrid)</span>
+                            </div>
+                            <div class="arch-metric-item">
+                                <span class="metric-label">Scoring Formula</span>
+                                <span class="metric-val">40% Sem + 25% Lrn + 25% Geo</span>
+                            </div>
+                            <div class="arch-metric-item">
+                                <span class="metric-label">Spatial Optimization</span>
+                                <span class="metric-val highlight-cyan">Haversine Route Ordering</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Self-Learning Loop -->
+                    <div class="arch-card">
+                        <div class="arch-card-top">
+                            <span class="arch-card-tag">Pillar 4</span>
+                            <span class="arch-card-badge status-active">Continuous Loop</span>
+                        </div>
+                        <div class="arch-card-icon">🔄</div>
+                        <h4 class="arch-card-title">Self-Learning Loop</h4>
+                        <p class="arch-card-desc">Captures user interaction feedback (upvotes/downvotes) to dynamically calibrate place affinity weights for specific weather conditions.</p>
+                        <div class="arch-metrics-list">
+                            <div class="arch-metric-item">
+                                <span class="metric-label">User Satisfaction</span>
+                                <span class="metric-val highlight-yellow" id="archSatisfactionVal">93.3%</span>
+                            </div>
+                            <div class="arch-metric-item">
+                                <span class="metric-label">Feedback Events</span>
+                                <span class="metric-val" id="archEventsVal">15 Ratings</span>
+                            </div>
+                            <div class="arch-metric-item">
+                                <span class="metric-label">Adaptive Calibration</span>
+                                <span class="metric-val highlight-green">Live Active Weights</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet Map JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="script.js"></script>
+</body>
+</html>

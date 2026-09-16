@@ -1,0 +1,819 @@
+{
+  "version": "1.0.0",
+  "name": "Global Travel POI Verified Dataset",
+  "description": "Curated database of verified real-world attractions, cultural landmarks, parks, and dining districts with geocoordinates and weather suitability tags",
+  "destinations": {
+    "tokyo": [
+      {
+        "id": "tok-01",
+        "name": "Shinjuku Gyoen National Garden",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Morning",
+        "lat": 35.6852,
+        "lon": 139.7101,
+        "description": "58.3-hectare national garden blending traditional Japanese, English landscape, and French formal styles.",
+        "source": "OpenStreetMap / Japan Tourism Org"
+      },
+      {
+        "id": "tok-02",
+        "name": "Meiji Jingu Shrine",
+        "category": "culture",
+        "weather_suitability": "all_weather",
+        "time_slot": "Morning",
+        "lat": 35.6764,
+        "lon": 139.6993,
+        "description": "Majestic Shinto shrine dedicated to Emperor Meiji, enclosed within a 170-acre evergreen forest in Shibuya.",
+        "source": "OpenStreetMap / Japan Heritage"
+      },
+      {
+        "id": "tok-03",
+        "name": "Tokyo National Museum (Ueno)",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Late Morning",
+        "lat": 35.7188,
+        "lon": 139.7765,
+        "description": "Japan's oldest and largest museum housing over 110,000 cultural artifacts and National Treasures.",
+        "source": "OpenStreetMap / National Institutes for Cultural Heritage"
+      },
+      {
+        "id": "tok-04",
+        "name": "Senso-ji Temple & Nakamise-dori",
+        "category": "culture",
+        "weather_suitability": "all_weather",
+        "time_slot": "Late Morning",
+        "lat": 35.7148,
+        "lon": 139.7967,
+        "description": "Tokyo's oldest Buddhist temple founded in 645 AD, approached via the vibrant Nakamise shopping avenue.",
+        "source": "OpenStreetMap / Tokyo Metro Gov"
+      },
+      {
+        "id": "tok-05",
+        "name": "Tsukiji Outer Market",
+        "category": "dining",
+        "weather_suitability": "all_weather",
+        "time_slot": "Afternoon",
+        "lat": 35.6655,
+        "lon": 139.7708,
+        "description": "Bustling historic food district filled with hundreds of seafood stalls, sushi counters, and tamagoyaki chefs.",
+        "source": "OpenStreetMap / Tsukiji Association"
+      },
+      {
+        "id": "tok-06",
+        "name": "Mori Art Museum & Roppongi Hills",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Afternoon",
+        "lat": 35.6605,
+        "lon": 139.7292,
+        "description": "Contemporary art museum perched on the 53rd floor of Roppongi Hills Mori Tower with observation deck.",
+        "source": "OpenStreetMap / Mori Building Co"
+      },
+      {
+        "id": "tok-07",
+        "name": "Shibuya Sky Observation Deck",
+        "category": "relax",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Evening",
+        "lat": 35.6585,
+        "lon": 139.7023,
+        "description": "Open-air rooftop observatory 229 meters above Shibuya Crossing offering 360-degree vistas of Mt. Fuji and Tokyo skyline.",
+        "source": "OpenStreetMap / Tokyu Corp"
+      },
+      {
+        "id": "tok-08",
+        "name": "Omoide Yokocho (Memory Lane)",
+        "category": "dining",
+        "weather_suitability": "all_weather",
+        "time_slot": "Evening",
+        "lat": 35.6928,
+        "lon": 139.6998,
+        "description": "Intimate post-war alleyway near Shinjuku Station packed with traditional yakitori and izakaya establishments.",
+        "source": "OpenStreetMap / Shinjuku Ward"
+      },
+      {
+        "id": "tok-09",
+        "name": "teamLab Planets Tokyo",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Morning",
+        "lat": 35.6491,
+        "lon": 139.7898,
+        "description": "Immersive digital museum where visitors walk barefoot through water and interact with colossal light art installations.",
+        "source": "OpenStreetMap / teamLab"
+      },
+      {
+        "id": "tok-10",
+        "name": "Akihabara Electric Town & Radio Kaikan",
+        "category": "relax",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Afternoon",
+        "lat": 35.6983,
+        "lon": 139.7731,
+        "description": "Global hub for electronics, computing hardware, anime, and multi-story retro gaming arcades.",
+        "source": "OpenStreetMap / Chiyoda Ward"
+      },
+      {
+        "id": "tok-11",
+        "name": "Ueno Onshi Park & Shinobazu Pond",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Morning",
+        "lat": 35.7141,
+        "lon": 139.7741,
+        "description": "Sprawling public park famed for its lotus pond, cherry blossoms, and adjacent cultural institutions.",
+        "source": "OpenStreetMap / Tokyo Parks"
+      },
+      {
+        "id": "tok-12",
+        "name": "Ginza Six & Shopping Promenade",
+        "category": "relax",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Evening",
+        "lat": 35.6696,
+        "lon": 139.7640,
+        "description": "Premier luxury complex featuring rooftop Japanese gardens, Noh theater, and flagship designer boutiques.",
+        "source": "OpenStreetMap / Ginza Association"
+      }
+    ],
+    "paris": [
+      {
+        "id": "par-01",
+        "name": "Eiffel Tower & Champ de Mars",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Morning",
+        "lat": 48.8584,
+        "lon": 2.2945,
+        "description": "Gustave Eiffel's 330-meter wrought-iron landmark and surrounding public park along the Quai Branly.",
+        "source": "OpenStreetMap / SETE Paris"
+      },
+      {
+        "id": "par-02",
+        "name": "Musée du Louvre",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Morning",
+        "lat": 48.8606,
+        "lon": 2.3376,
+        "description": "World's most visited museum, housing the Mona Lisa, Venus de Milo, and over 38,000 works of art.",
+        "source": "OpenStreetMap / Ministère de la Culture"
+      },
+      {
+        "id": "par-03",
+        "name": "Musée d'Orsay",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Late Morning",
+        "lat": 48.8599,
+        "lon": 2.3266,
+        "description": "Beaux-Arts former railway station exhibiting the premier collection of Impressionist and Post-Impressionist masterpieces.",
+        "source": "OpenStreetMap / Musée d'Orsay"
+      },
+      {
+        "id": "par-04",
+        "name": "Jardin du Luxembourg",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Late Morning",
+        "lat": 48.8462,
+        "lon": 2.3371,
+        "description": "23-hectare palace gardens featuring tree-lined promenades, the Medici Fountain, and model sailboat ponds.",
+        "source": "OpenStreetMap / Sénat Français"
+      },
+      {
+        "id": "par-05",
+        "name": "Marché des Enfants Rouges (Le Marais)",
+        "category": "dining",
+        "weather_suitability": "all_weather",
+        "time_slot": "Afternoon",
+        "lat": 48.8631,
+        "lon": 2.3625,
+        "description": "Paris' oldest covered food market established in 1615, serving authentic Moroccan, Lebanese, and French bistrot cuisine.",
+        "source": "OpenStreetMap / Mairie de Paris"
+      },
+      {
+        "id": "par-06",
+        "name": "Sainte-Chapelle & Conciergerie",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Afternoon",
+        "lat": 48.8554,
+        "lon": 2.3450,
+        "description": "13th-century Gothic royal chapel renowned for its breathtaking 15-meter-high stained glass windows.",
+        "source": "OpenStreetMap / Centre des Monuments Nationaux"
+      },
+      {
+        "id": "par-07",
+        "name": "Montmartre & Sacré-Cœur Basilica",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Evening",
+        "lat": 48.8867,
+        "lon": 2.3431,
+        "description": "Historic bohemian hilltop neighborhood featuring street artists, panoramic vistas of Paris, and Romano-Byzantine basilica.",
+        "source": "OpenStreetMap / Paris Tourisme"
+      },
+      {
+        "id": "par-08",
+        "name": "Seine Riverboat Cruise (Pont Neuf)",
+        "category": "relax",
+        "weather_suitability": "all_weather",
+        "time_slot": "Evening",
+        "lat": 48.8570,
+        "lon": 2.3414,
+        "description": "Evening navigation past illuminated monuments including Notre-Dame, Musée d'Orsay, and the Eiffel Tower.",
+        "source": "OpenStreetMap / Vedettes du Pont Neuf"
+      },
+      {
+        "id": "par-09",
+        "name": "Centre Pompidou",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Late Morning",
+        "lat": 48.8606,
+        "lon": 2.3522,
+        "description": "High-tech architectural marvel hosting Europe's largest modern and contemporary art museum.",
+        "source": "OpenStreetMap / Centre Pompidou"
+      },
+      {
+        "id": "par-10",
+        "name": "Jardin des Tuileries",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Afternoon",
+        "lat": 48.8635,
+        "lon": 2.3275,
+        "description": "Historic public garden created by Catherine de' Medici connecting the Louvre with Place de la Concorde.",
+        "source": "OpenStreetMap / Domaine National des Tuileries"
+      }
+    ],
+    "rome": [
+      {
+        "id": "rom-01",
+        "name": "Colosseum & Roman Forum",
+        "category": "culture",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Morning",
+        "lat": 41.8902,
+        "lon": 12.4922,
+        "description": "Iconic Flavian amphitheatre completed in 80 AD and adjacent civic center of ancient imperial Rome.",
+        "source": "OpenStreetMap / Parco Archeologico del Colosseo"
+      },
+      {
+        "id": "rom-02",
+        "name": "Pantheon",
+        "category": "culture",
+        "weather_suitability": "all_weather",
+        "time_slot": "Morning",
+        "lat": 41.8986,
+        "lon": 12.4769,
+        "description": "Remarkably preserved ancient temple with the world's largest unreinforced concrete dome and central oculus.",
+        "source": "OpenStreetMap / Direzione Musei Statali Roma"
+      },
+      {
+        "id": "rom-03",
+        "name": "Vatican Museums & Sistine Chapel",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Late Morning",
+        "lat": 41.9065,
+        "lon": 12.4536,
+        "description": "Pontifical art collections spanning classical sculptures, Raphael Rooms, and Michelangelo's Sistine ceiling.",
+        "source": "OpenStreetMap / Musei Vaticani"
+      },
+      {
+        "id": "rom-04",
+        "name": "Piazza Navona & Fountain of the Four Rivers",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Afternoon",
+        "lat": 41.8992,
+        "lon": 12.4731,
+        "description": "Baroque public square built on the Stadium of Domitian, centered on Bernini's Fontana dei Quattro Fiumi.",
+        "source": "OpenStreetMap / Comune di Roma"
+      },
+      {
+        "id": "rom-05",
+        "name": "Campo de' Fiori Market & Trattorias",
+        "category": "dining",
+        "weather_suitability": "all_weather",
+        "time_slot": "Afternoon",
+        "lat": 41.8956,
+        "lon": 12.4722,
+        "description": "Historic vibrant piazza with daytime produce and spice vendors, surrounded by artisan pasta and carbonara eateries.",
+        "source": "OpenStreetMap / Mercati di Roma"
+      },
+      {
+        "id": "rom-06",
+        "name": "Villa Borghese Gardens & Galleria Borghese",
+        "category": "relax",
+        "weather_suitability": "all_weather",
+        "time_slot": "Late Morning",
+        "lat": 41.9142,
+        "lon": 12.4921,
+        "description": "80-hectare landscaped landscape park housing masterpieces by Bernini, Caravaggio, and Canova.",
+        "source": "OpenStreetMap / Galleria Borghese"
+      },
+      {
+        "id": "rom-07",
+        "name": "Trevi Fountain (Fontana di Trevi)",
+        "category": "culture",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Evening",
+        "lat": 41.9009,
+        "lon": 12.4833,
+        "description": "Monumental Late Baroque fountain designed by Nicola Salvi at the terminus of the ancient Aqua Virgo aqueduct.",
+        "source": "OpenStreetMap / Sovrintendenza Capitolina"
+      },
+      {
+        "id": "rom-08",
+        "name": "Trastevere Historic Quarter & Osterias",
+        "category": "dining",
+        "weather_suitability": "all_weather",
+        "time_slot": "Evening",
+        "lat": 41.8893,
+        "lon": 12.4700,
+        "description": "Atmospheric medieval cobblestone alleys renowned for authentic Roman osterias, street musicians, and Piazza Santa Maria.",
+        "source": "OpenStreetMap / Rione XIII Trastevere"
+      }
+    ],
+    "new york": [
+      {
+        "id": "nyc-01",
+        "name": "Central Park & Bethesda Terrace",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Morning",
+        "lat": 40.7829,
+        "lon": -73.9654,
+        "description": "843-acre urban oasis designed by Olmsted and Vaux, featuring iconic bridges, the Mall, and Bow Bridge.",
+        "source": "OpenStreetMap / Central Park Conservancy"
+      },
+      {
+        "id": "nyc-02",
+        "name": "Metropolitan Museum of Art (The Met)",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Morning",
+        "lat": 40.7794,
+        "lon": -73.9632,
+        "description": "Largest art museum in the Americas, encompassing over 2 million works across 5,000 years of global culture.",
+        "source": "OpenStreetMap / The Met"
+      },
+      {
+        "id": "nyc-03",
+        "name": "The High Line & Hudson Yards",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Late Morning",
+        "lat": 40.7480,
+        "lon": -74.0048,
+        "description": "1.45-mile elevated parkway on a former historic freight rail line with native prairie gardens and public art.",
+        "source": "OpenStreetMap / Friends of the High Line"
+      },
+      {
+        "id": "nyc-04",
+        "name": "Chelsea Market Food Hall",
+        "category": "dining",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Afternoon",
+        "lat": 40.7424,
+        "lon": -74.0061,
+        "description": "Enclosed urban food hall inside the historic Nabisco factory with international food vendors and artisan bakeries.",
+        "source": "OpenStreetMap / Chelsea Market"
+      },
+      {
+        "id": "nyc-05",
+        "name": "Museum of Modern Art (MoMA)",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Afternoon",
+        "lat": 40.7614,
+        "lon": -73.9776,
+        "description": "World-leading modern art museum featuring van Gogh's Starry Night, Warhol, Picasso, and design exhibits.",
+        "source": "OpenStreetMap / MoMA"
+      },
+      {
+        "id": "nyc-06",
+        "name": "Summit One Vanderbilt",
+        "category": "relax",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Evening",
+        "lat": 40.7527,
+        "lon": -73.9772,
+        "description": "Multi-sensory observation experience 1,000+ feet above Midtown Manhattan with mirrored infinity rooms.",
+        "source": "OpenStreetMap / SL Green Realty"
+      },
+      {
+        "id": "nyc-07",
+        "name": "Brooklyn Bridge & DUMBO Promenade",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Evening",
+        "lat": 40.7061,
+        "lon": -73.9969,
+        "description": "Historic 1883 suspension bridge pedestrian walkway leading to scenic East River waterfront and skyline views.",
+        "source": "OpenStreetMap / NYC DOT"
+      },
+      {
+        "id": "nyc-08",
+        "name": "Broadway Theater District",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Evening",
+        "lat": 40.7590,
+        "lon": -73.9845,
+        "description": "World's preeminent commercial theatrical center featuring 41 professional Broadway theaters.",
+        "source": "OpenStreetMap / The Broadway League"
+      }
+    ],
+    "london": [
+      {
+        "id": "lon-01",
+        "name": "British Museum",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Morning",
+        "lat": 51.5194,
+        "lon": -0.1270,
+        "description": "World-renowned institution dedicated to human history, art and culture, housing the Rosetta Stone and Parthenon Sculptures.",
+        "source": "OpenStreetMap / The British Museum"
+      },
+      {
+        "id": "lon-02",
+        "name": "Tower of London & Tower Bridge",
+        "category": "culture",
+        "weather_suitability": "all_weather",
+        "time_slot": "Morning",
+        "lat": 51.5081,
+        "lon": -0.0759,
+        "description": "Historic royal fortress founded in 1066, home to the Crown Jewels and Yeoman Warders beside the iconic bascule bridge.",
+        "source": "OpenStreetMap / Historic Royal Palaces"
+      },
+      {
+        "id": "lon-03",
+        "name": "Borough Market",
+        "category": "dining",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Afternoon",
+        "lat": 51.5055,
+        "lon": -0.0910,
+        "description": "London's premier historic food market dating to the 12th century, serving artisan British cheeses, street food, and oysters.",
+        "source": "OpenStreetMap / Borough Market Trust"
+      },
+      {
+        "id": "lon-04",
+        "name": "Hyde Park & Kensington Gardens",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Late Morning",
+        "lat": 51.5073,
+        "lon": -0.1657,
+        "description": "350-acre Royal Park featuring the Serpentine lake, Memorial Fountain, and Kensington Palace.",
+        "source": "OpenStreetMap / Royal Parks UK"
+      },
+      {
+        "id": "lon-05",
+        "name": "Tate Modern & Millennium Bridge",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Afternoon",
+        "lat": 51.5076,
+        "lon": -0.0994,
+        "description": "Britain's national gallery of international modern art housed in the repurposed Bankside Power Station.",
+        "source": "OpenStreetMap / Tate Gallery"
+      },
+      {
+        "id": "lon-06",
+        "name": "West End & Covent Garden",
+        "category": "relax",
+        "weather_suitability": "all_weather",
+        "time_slot": "Evening",
+        "lat": 51.5117,
+        "lon": -0.1232,
+        "description": "Vibrant cultural hub filled with street performers, covered Apple Market, opera houses, and West End theatres.",
+        "source": "OpenStreetMap / Westminster City Council"
+      }
+    ],
+    "dubai": [
+      {
+        "id": "dxb-01",
+        "name": "Burj Khalifa & At the Top",
+        "category": "relax",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Morning",
+        "lat": 25.1972,
+        "lon": 55.2744,
+        "description": "World's tallest skyscraper (828m) offering high-speed elevators and panoramic observation decks.",
+        "source": "OpenStreetMap / Emaar Properties"
+      },
+      {
+        "id": "dxb-02",
+        "name": "Museum of the Future",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Morning",
+        "lat": 25.2192,
+        "lon": 55.2818,
+        "description": "Toroidal architectural masterpiece showcasing futuristic technologies, space innovation, and ecological bio-displays.",
+        "source": "OpenStreetMap / Dubai Future Foundation"
+      },
+      {
+        "id": "dxb-03",
+        "name": "Dubai Miracle Garden",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Late Morning",
+        "lat": 25.0601,
+        "lon": 55.2442,
+        "description": "World's largest natural flower garden featuring 150 million blooming flowers formed into sculptures.",
+        "source": "OpenStreetMap / Dubai Municipality"
+      },
+      {
+        "id": "dxb-04",
+        "name": "Al Fahidi Historical Neighbourhood & Spice Souk",
+        "category": "culture",
+        "weather_suitability": "all_weather",
+        "time_slot": "Afternoon",
+        "lat": 25.2635,
+        "lon": 55.2972,
+        "description": "Historic wind-tower quarter along Dubai Creek, traditional abra boat rides, and vibrant spice and gold markets.",
+        "source": "OpenStreetMap / Dubai Culture"
+      },
+      {
+        "id": "dxb-05",
+        "name": "Time Out Market Dubai (Souk Al Bahar)",
+        "category": "dining",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Evening",
+        "lat": 25.1953,
+        "lon": 55.2778,
+        "description": "Curated culinary destination featuring top local homegrown chefs overlooking the Dubai Fountain.",
+        "source": "OpenStreetMap / Time Out Group"
+      }
+    ],
+    "delhi": [
+      {
+        "id": "del-01",
+        "name": "Humayun's Tomb",
+        "category": "culture",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Morning",
+        "lat": 28.5933,
+        "lon": 77.2507,
+        "description": "UNESCO World Heritage Mughal garden tomb built in 1570, precursing the architectural design of the Taj Mahal.",
+        "source": "OpenStreetMap / Archaeological Survey of India"
+      },
+      {
+        "id": "del-02",
+        "name": "National Museum of India (Janpath)",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Morning",
+        "lat": 28.6119,
+        "lon": 77.2193,
+        "description": "Premier museum housing Harappan civilization treasures, Buddhist relics, miniature paintings, and historical artifacts.",
+        "source": "OpenStreetMap / Ministry of Culture India"
+      },
+      {
+        "id": "del-03",
+        "name": "Qutub Minar & Mehrauli Archaeological Park",
+        "category": "culture",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Late Morning",
+        "lat": 28.5245,
+        "lon": 77.1855,
+        "description": "73-meter fluted red sandstone minaret dating to 1192 AD surrounded by ancient Indo-Islamic monuments.",
+        "source": "OpenStreetMap / ASI Heritage"
+      },
+      {
+        "id": "del-04",
+        "name": "Chandni Chowk & Paranthe Wali Gali",
+        "category": "dining",
+        "weather_suitability": "all_weather",
+        "time_slot": "Afternoon",
+        "lat": 28.6562,
+        "lon": 77.2307,
+        "description": "Centuries-old culinary and bazaar thoroughfare famed for stuffed parathas, jalebis, and Old Delhi street delicacies.",
+        "source": "OpenStreetMap / Delhi Tourism"
+      },
+      {
+        "id": "del-05",
+        "name": "Lodhi Gardens",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Afternoon",
+        "lat": 28.5931,
+        "lon": 77.2197,
+        "description": "90-acre historic park containing architectural mausoleums of the Sayyid and Lodi dynasties set among lawns.",
+        "source": "OpenStreetMap / NDMC"
+      },
+      {
+        "id": "del-06",
+        "name": "India Gate & Kartavya Path Promenade",
+        "category": "relax",
+        "weather_suitability": "all_weather",
+        "time_slot": "Evening",
+        "lat": 28.6129,
+        "lon": 77.2295,
+        "description": "42-meter triumphal arch war memorial illuminated at dusk with sprawling pedestrian lawns and water channels.",
+        "source": "OpenStreetMap / CPWD India"
+      }
+    ],
+    "hyderabad": [
+      {
+        "id": "hyd-01",
+        "name": "Golconda Fort & Sound and Light Show",
+        "category": "culture",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Morning",
+        "lat": 17.3833,
+        "lon": 78.4011,
+        "description": "Massive medieval fortress renowned for acoustic engineering, diamond vault history, and panoramic citadel views.",
+        "source": "OpenStreetMap / Archaeological Survey of India"
+      },
+      {
+        "id": "hyd-02",
+        "name": "Salar Jung Museum",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Morning",
+        "lat": 17.3714,
+        "lon": 78.4804,
+        "description": "One of India's three National Museums, boasting 38 galleries of rare global art, European clocks, and the Veiled Rebecca.",
+        "source": "OpenStreetMap / Salar Jung Museum Board"
+      },
+      {
+        "id": "hyd-03",
+        "name": "Charminar & Laad Bazaar",
+        "category": "culture",
+        "weather_suitability": "all_weather",
+        "time_slot": "Late Morning",
+        "lat": 17.3616,
+        "lon": 78.4747,
+        "description": "1591 monument with four grand arches and minarets, surrounded by the historic lacquer bangle and pearl bazaar.",
+        "source": "OpenStreetMap / Telangana Tourism"
+      },
+      {
+        "id": "hyd-04",
+        "name": "Chowmahalla Palace",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Afternoon",
+        "lat": 17.3578,
+        "lon": 78.4717,
+        "description": "Opulent palace of the Nizams featuring neoclassical Khilwat Mubarak durbar hall and vintage car collection.",
+        "source": "OpenStreetMap / Chowmahalla Heritage Trust"
+      },
+      {
+        "id": "hyd-05",
+        "name": "Famous Biryani at Paradise / Shah Ghouse",
+        "category": "dining",
+        "weather_suitability": "all_weather",
+        "time_slot": "Afternoon",
+        "lat": 17.3688,
+        "lon": 78.4789,
+        "description": "Traditional Hyderabadi Dum Biryani slow-cooked with basmati rice, aromatic spices, and tender meat.",
+        "source": "OpenStreetMap / Culinary Heritage Index"
+      },
+      {
+        "id": "hyd-06",
+        "name": "Hussain Sagar Lake & Necklace Road",
+        "category": "relax",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Evening",
+        "lat": 17.4239,
+        "lon": 78.4738,
+        "description": "Scenic heart-shaped artificial lake with the world's tallest monolithic Buddha statue and evening boat cruises.",
+        "source": "OpenStreetMap / HMDA"
+      }
+    ],
+    "bangalore": [
+      {
+        "id": "blr-01",
+        "name": "Lalbagh Botanical Garden & Glass House",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Morning",
+        "lat": 12.9507,
+        "lon": 77.5848,
+        "description": "240-acre botanical garden founded by Hyder Ali, featuring century-old trees and a 19th-century Crystal Palace-inspired conservatory.",
+        "source": "OpenStreetMap / Dept of Horticulture Karnataka"
+      },
+      {
+        "id": "blr-02",
+        "name": "Visvesvaraya Industrial & Technological Museum",
+        "category": "culture",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Morning",
+        "lat": 12.9752,
+        "lon": 77.5963,
+        "description": "Interactive science and engineering museum with engines, space exploration, and biotechnology exhibits.",
+        "source": "OpenStreetMap / National Council of Science Museums"
+      },
+      {
+        "id": "blr-03",
+        "name": "Bangalore Palace",
+        "category": "culture",
+        "weather_suitability": "all_weather",
+        "time_slot": "Late Morning",
+        "lat": 12.9988,
+        "lon": 77.5921,
+        "description": "Tudor-style royal estate modeled after Windsor Castle, featuring fortified towers and stained-glass interiors.",
+        "source": "OpenStreetMap / Mysore Royal Trust"
+      },
+      {
+        "id": "blr-04",
+        "name": "Cubbon Park & State Central Library",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Afternoon",
+        "lat": 12.9763,
+        "lon": 77.5929,
+        "description": "300-acre lush lung of Bangalore with bamboo groves, rose gardens, and colonial red-brick heritage buildings.",
+        "source": "OpenStreetMap / Karnataka Forest & Horticulture"
+      },
+      {
+        "id": "blr-05",
+        "name": "VV Puram Food Street (Thindi Beedi)",
+        "category": "dining",
+        "weather_suitability": "all_weather",
+        "time_slot": "Evening",
+        "lat": 12.9534,
+        "lon": 77.5786,
+        "description": "Famous pedestrian food street serving authentic dosas, paddus, Congress bun, and filter coffee.",
+        "source": "OpenStreetMap / Karnataka Tourism"
+      },
+      {
+        "id": "blr-06",
+        "name": "UB City Sky Lounge & Promenade",
+        "category": "relax",
+        "weather_suitability": "indoor_rain_safe",
+        "time_slot": "Evening",
+        "lat": 12.9719,
+        "lon": 77.5958,
+        "description": "Luxury commercial precinct with open-air rooftop dining, art galleries, and cityscape vistas.",
+        "source": "OpenStreetMap / Prestige Group"
+      }
+    ],
+    "dharwad": [
+      {
+        "id": "dhw-01",
+        "name": "Karnatak University Campus & Botanical Garden",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Morning",
+        "lat": 15.4385,
+        "lon": 74.9856,
+        "description": "Expansive scenic hilltop campus with verdant botanical gardens and heritage stone academic buildings.",
+        "source": "OpenStreetMap / Karnatak University"
+      },
+      {
+        "id": "dhw-02",
+        "name": "Chandramouleshwara Temple (Unkal)",
+        "category": "culture",
+        "weather_suitability": "all_weather",
+        "time_slot": "Morning",
+        "lat": 15.3789,
+        "lon": 75.1052,
+        "description": "900-year-old Western Chalukya dynasty stone temple dedicated to Lord Shiva with intricately carved pillars.",
+        "source": "OpenStreetMap / ASI Karnataka"
+      },
+      {
+        "id": "dhw-03",
+        "name": "Heritage Lineage Dharwad Peda (Babusingh Thakur)",
+        "category": "dining",
+        "weather_suitability": "all_weather",
+        "time_slot": "Late Morning",
+        "lat": 15.4589,
+        "lon": 75.0078,
+        "description": "Geographical Indication (GI) tagged sweet confection made from caramelized milk and khoya, perfected since 1850.",
+        "source": "OpenStreetMap / GI Registry India"
+      },
+      {
+        "id": "dhw-04",
+        "name": "Kappatagiri Wildlife Sanctuary & Hill Range",
+        "category": "outdoor",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Afternoon",
+        "lat": 15.2289,
+        "lon": 75.7200,
+        "description": "Rich biodiversity hotspot known for rare medicinal herbs, historic gold mines, and scenic trekking vistas.",
+        "source": "OpenStreetMap / Karnataka Forest Department"
+      },
+      {
+        "id": "dhw-05",
+        "name": "Unkal Lake & Vivekananda Rock",
+        "category": "relax",
+        "weather_suitability": "outdoor_clear",
+        "time_slot": "Evening",
+        "lat": 15.3856,
+        "lon": 75.1022,
+        "description": "Centuries-old water reservoir offering sunset pedal boating, gardens, and musical fountain shows.",
+        "source": "OpenStreetMap / Hubballi-Dharwad Municipal Corp"
+      }
+    ]
+  }
+}

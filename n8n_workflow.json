@@ -1,0 +1,147 @@
+{
+  "name": "Weather Trip Planner AI Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "weather-trip-planner",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+      "name": "Webhook (Receive Form)",
+      "webhookId": "weather-trip-planner"
+    },
+    {
+      "parameters": {
+        "url": "https://api.open-meteo.com/v1/forecast",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "latitude",
+              "value": "={{ $json.body ? $json.body.latitude : $json.latitude }}"
+            },
+            {
+              "name": "longitude",
+              "value": "={{ $json.body ? $json.body.longitude : $json.longitude }}"
+            },
+            {
+              "name": "daily",
+              "value": "weather_code,temperature_2m_max,temperature_2m_min"
+            },
+            {
+              "name": "start_date",
+              "value": "={{ (() => { const s = $json.body ? $json.body.startDate : $json.startDate; const max = new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0]; return (!s || s > max) ? max : s; })() }}"
+            },
+            {
+              "name": "end_date",
+              "value": "={{ (() => { const e = $json.body ? $json.body.endDate : $json.endDate; const max = new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0]; return (!e || e > max) ? max : e; })() }}"
+            },
+            {
+              "name": "timezone",
+              "value": "auto"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        0
+      ],
+      "id": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+      "name": "Fetch Open-Meteo Weather"
+    },
+    {
+      "parameters": {
+        "jsCode": "const webhookItem = $(\"Webhook (Receive Form)\").first().json;\nconst webhookData = webhookItem.body || webhookItem;\nconst weatherData = $input.first().json;\n\nconst city = webhookData.city || 'Destination';\nconst country = webhookData.country || '';\nconst startDate = webhookData.startDate || new Date().toISOString().split('T')[0];\nconst endDate = webhookData.endDate || startDate;\n\nconst WMO_MAP = {\n  0: { emoji: '☀️', desc: 'Clear sky' },\n  1: { emoji: '🌤️', desc: 'Mainly clear' },\n  2: { emoji: '⛅', desc: 'Partly cloudy' },\n  3: { emoji: '☁️', desc: 'Overcast' },\n  45: { emoji: '🌫️', desc: 'Foggy' },\n  48: { emoji: '🌫️', desc: 'Depositing rime fog' },\n  51: { emoji: '🌦️', desc: 'Light drizzle' },\n  53: { emoji: '🌦️', desc: 'Moderate drizzle' },\n  55: { emoji: '🌧️', desc: 'Dense drizzle' },\n  61: { emoji: '🌧️', desc: 'Slight rain' },\n  63: { emoji: '🌧️', desc: 'Moderate rain' },\n  65: { emoji: '🌧️', desc: 'Heavy rain' },\n  71: { emoji: '🌨️', desc: 'Light snow' },\n  73: { emoji: '🌨️', desc: 'Moderate snow' },\n  75: { emoji: '❄️', desc: 'Heavy snow' },\n  80: { emoji: '🌦️', desc: 'Light rain showers' },\n  81: { emoji: '🌧️', desc: 'Moderate rain showers' },\n  82: { emoji: '⛈️', desc: 'Violent rain showers' },\n  95: { emoji: '⛈️', desc: 'Thunderstorm' },\n  96: { emoji: '⛈️', desc: 'Thunderstorm with hail' },\n  99: { emoji: '⛈️', desc: 'Thunderstorm with heavy hail' }\n};\n\nconst daily = weatherData.daily || {};\nconst timeArr = daily.time || [startDate];\nconst codeArr = daily.weather_code || [0];\nconst maxArr = daily.temperature_2m_max || [24];\nconst minArr = daily.temperature_2m_min || [16];\n\nconst dailyForecasts = timeArr.map((dateStr, idx) => {\n  const code = codeArr[idx] !== undefined ? codeArr[idx] : 0;\n  const info = WMO_MAP[code] || { emoji: '🌤️', desc: 'Variable' };\n  return {\n    date: dateStr,\n    temp_max: Math.round(maxArr[idx] !== undefined ? maxArr[idx] : 24),\n    temp_min: Math.round(minArr[idx] !== undefined ? minArr[idx] : 16),\n    emoji: info.emoji,\n    description: info.desc\n  };\n});\n\nconst forecastSummary = dailyForecasts.map(d => \n  `- ${d.date}: ${d.description} ${d.emoji}, High ${d.temp_max}°C, Low ${d.temp_min}°C`\n).join('\\n');\n\nconst systemPrompt = `You are a world-class travel curator. Create an authentic, day-by-day itinerary formatted as JSON.\\n\\nSTRICT RULES:\\n1. FORBIDDEN GENERIC FILLER: NEVER use generic placeholders like 'Visit Museum', 'Local Museum', 'Attend a Workshop', 'Cooking Workshop', 'Pottery Workshop', 'Explore the City', 'Local Cuisine', or 'Sunset Views'.\\n2. REAL LANDMARKS: Every single activity title MUST be an ACTUAL, RENOWNED, SPECIFIC FAMOUS PLACE or landmark in or near ${city}.\\n3. PROPER CONTEXT: Describe the genuine historical, cultural, or architectural context of that specific place and explain why it fits today's weather.\\n4. Return STRICT JSON format:\\n{\\n  \"packing_list\": [\\n    { \"icon\": \"☔\", \"label\": \"Compact Umbrella\" },\\n    { \"icon\": \"👟\", \"label\": \"Comfortable Walking Shoes\" },\\n    { \"icon\": \"🕶️\", \"label\": \"Sunscreen & Sunglasses\" }\\n  ],\\n  \"itinerary\": [\\n    {\\n      \"date\": \"YYYY-MM-DD\",\\n      \"dayName\": \"Monday\",\\n      \"weather\": { \"emoji\": \"☀️\", \"temp_max\": 25, \"temp_min\": 15, \"description\": \"Clear sky\" },\\n      \"activities\": [\\n        { \"time\": \"Morning\", \"title\": \"Actual Famous Landmark\", \"description\": \"Authentic contextual description...\", \"category\": \"outdoor\" },\\n        { \"time\": \"Late Morning\", \"title\": \"Actual Historic Palace/Museum\", \"description\": \"...\", \"category\": \"culture\" },\\n        { \"time\": \"Afternoon\", \"title\": \"Famous Market/Dining Landmark\", \"description\": \"...\", \"category\": \"dining\" },\\n        { \"time\": \"Evening\", \"title\": \"Famous Waterfront/Observatory\", \"description\": \"...\", \"category\": \"relax\" }\\n      ]\\n    }\\n  ]\\n}\\n5. Adapt activities to weather: indoor cultural landmarks for rain/snow, outdoor monuments and parks for clear/sunny days.`;\n\nconst userPrompt = `Destination: ${city}, ${country}\\nDates: ${startDate} to ${endDate}\\n\\nDaily Weather Forecast:\\n${forecastSummary}`;\n\nconst groqApiKey = $env.GROQ_API_KEY || 'YOUR_GROQ_API_KEY';\n\nconst response = await this.helpers.httpRequest({\n  method: 'POST',\n  url: 'https://api.groq.com/openai/v1/chat/completions',\n  headers: {\n    'Authorization': `Bearer ${groqApiKey}`,\n    'Content-Type': 'application/json'\n  },\n  body: {\n    model: 'openai/gpt-oss-120b',\n    response_format: { type: 'json_object' },\n    temperature: 0.5,\n    messages: [\n      { role: 'system', content: systemPrompt },\n      { role: 'user', content: userPrompt }\n    ]\n  },\n  json: true\n});\n\nlet content = '';\nif (response && response.choices && response.choices[0] && response.choices[0].message) {\n  content = response.choices[0].message.content;\n} else if (typeof response === 'string') {\n  content = response;\n}\n\nlet parsed = null;\ntry {\n  parsed = JSON.parse(content);\n} catch (e) {\n  const clean = content.replace(/```json/g, '').replace(/```/g, '').trim();\n  try { parsed = JSON.parse(clean); } catch (err) {}\n}\n\nif (!parsed || !parsed.itinerary) {\n  throw new Error('Groq AI API failed to return a valid itinerary structure.');\n}\n\nif (Array.isArray(parsed.itinerary)) {\n  parsed.itinerary = parsed.itinerary.map((item, idx) => {\n    const fallbackForecast = dailyForecasts[idx] || {};\n    if (!item.weather || !item.weather.temp_max) {\n      item.weather = {\n        emoji: fallbackForecast.emoji || '🌤️',\n        temp_max: fallbackForecast.temp_max || 24,\n        temp_min: fallbackForecast.temp_min || 16,\n        description: fallbackForecast.description || 'Forecast'\n      };\n    }\n    return item;\n  });\n}\n\nreturn [{ json: parsed }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        520,
+        0
+      ],
+      "id": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+      "name": "Groq AI Generator"
+    },
+    {
+      "parameters": {
+        "respondWith": "firstIncomingItem",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        780,
+        0
+      ],
+      "id": "6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Webhook (Receive Form)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Open-Meteo Weather",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Open-Meteo Weather": {
+      "main": [
+        [
+          {
+            "node": "Groq AI Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq AI Generator": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c2d3e4f5-a6b7-8c9d-0e1f-2a3b4c5d6e7f",
+  "tags": []
+}
